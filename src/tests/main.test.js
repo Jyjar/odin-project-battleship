@@ -1,4 +1,5 @@
 import { Ship } from "../ship.js";
+import { GameBoard } from "../gameBoard.js";
 
 
 describe('ship tests', () => {
@@ -18,3 +19,28 @@ describe('ship tests', () => {
         expect(ship.sunken).toBe(false);
     });
 });
+
+describe('gameBoard tests', () => {
+    let gameBoard;
+    let ship = new Ship(3);
+
+    beforeEach(() => {
+        gameBoard = new GameBoard();
+        gameBoard.placeShip(ship, [0, 0], "horizontal");
+    })
+
+    describe('placeShip method', () => {
+        test('gameBoard places ship horizontaly correct', () => {
+            expect(gameBoard.board[0][2]).toBe(ship);
+        })
+
+        test('second ship is not placed due to being adjacent to the first ship', () => {
+            expect(() => {
+                gameBoard.placeShip(ship, [0, 1], "vertical");
+            }).toThrow(Error);
+        })
+
+    })
+
+    
+})
