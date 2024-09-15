@@ -42,5 +42,15 @@ describe('gameBoard tests', () => {
 
     })
 
+    describe('reciveAttack method', () => {
+        test('hits the ship and returns true', () => {
+            expect(gameBoard.reciveAttack([0,2])).toBe(true);
+        })
+
+        test('fail to hit the ship and returns false', () => {
+            expect(gameBoard.reciveAttack([1,2])).toBe(false);
+        })
+    })
+
     
 })

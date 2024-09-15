@@ -57,9 +57,19 @@ class GameBoard {
         return true;
     }
 
-    reciveAttack(coords) {}
+    reciveAttack(coords) {
+        if (this.board[coords[0]][coords[1]] != null) {
+            this.board[coords[0]][coords[1]].timesHit++;
+            return true;
+        } else {
+            this.missedShots.push(coords);
+            return false;
+        }
+    }
 
-    areAllShipSunk() {}
+    areAllShipSunk() {
+        
+    }
 }
 
 export { GameBoard };
