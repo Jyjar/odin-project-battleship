@@ -58,8 +58,13 @@ class GameBoard {
     }
 
     reciveAttack(coords) {
-        if (this.board[coords[0]][coords[1]] != null) {
-            this.board[coords[0]][coords[1]].timesHit++;
+        let ship = this.board[coords[0]][coords[1]];
+
+        if (ship != null) {
+            ship.timesHit++;
+            if (ship.timesHit == ship.length) {
+                ship.sunken = true;
+            }
             return true;
         } else {
             this.missedShots.push(coords);
@@ -68,6 +73,13 @@ class GameBoard {
     }
 
     areAllShipSunk() {
+        let allShipsSunk = true;
+        this.ships.forEach((ship) => {
+            if(ship.sunken == false) {
+                return allShipsSunk = false;
+            }
+        })
+        return allShipsSunk;
         
     }
 }
