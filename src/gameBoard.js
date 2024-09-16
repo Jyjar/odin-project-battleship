@@ -61,7 +61,7 @@ class GameBoard {
         let ship = this.board[coords[0]][coords[1]];
 
         if (ship != null) {
-            ship.timesHit++;
+            ship.hit();
             if (ship.timesHit == ship.length) {
                 ship.sunken = true;
             }

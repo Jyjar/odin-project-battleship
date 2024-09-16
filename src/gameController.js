@@ -46,13 +46,13 @@ class GameController {
     }
 
     switchTurn() {
-        currentPlayer == this.player1 ? this.player2 : this.player1;
+        this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
     }
 
     checkGameOver() {
-        if (this.player1.gameBoard.areAllShipSunk() == ture) {
+        if (this.player1.gameBoard.areAllShipSunk() == true) {
             return player1
-        } else if (this.player1.gameBoard.areAllShipSunk() == ture) {
+        } else if (this.player1.gameBoard.areAllShipSunk() == true) {
             return player2
         }
         return false;

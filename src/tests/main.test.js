@@ -15,6 +15,11 @@ describe("ship tests", () => {
         expect(ship.sunken).toBe(true);
     });
 
+    test("hit method does not sink the ship if hit fewer times than its length", () => {
+        ship.hit();
+        expect(ship.sunken).toBe(false);
+    });
+
     test("returns false for ship that was not hit", () => {
         expect(ship.sunken).toBe(false);
     });
@@ -49,6 +54,13 @@ describe("gameBoard tests", () => {
         test("fail to hit the ship and returns false", () => {
             expect(gameBoard.receiveAttack([1, 2])).toBe(false);
         });
+    });
+
+    test("hitting and sinking a ship", () => {
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 1]);
+        gameBoard.receiveAttack([0, 2]);
+        expect(ship.sunken).toBe(true);
     });
 
     describe("allShipsSunk method", () => {
