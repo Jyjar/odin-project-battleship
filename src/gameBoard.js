@@ -2,7 +2,7 @@ class GameBoard {
     constructor() {
         this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
         this.ships = [];
-        this.missedShots = [];
+        this.shots = [];
     }
 
     placeShip(ship, coords, orientation) {
@@ -57,7 +57,7 @@ class GameBoard {
         return true;
     }
 
-    reciveAttack(coords) {
+    receiveAttack(coords) {
         let ship = this.board[coords[0]][coords[1]];
 
         if (ship != null) {
@@ -65,9 +65,10 @@ class GameBoard {
             if (ship.timesHit == ship.length) {
                 ship.sunken = true;
             }
+            this.shots.push(coords);
             return true;
         } else {
-            this.missedShots.push(coords);
+            this.shots.push(coords);
             return false;
         }
     }
@@ -75,12 +76,11 @@ class GameBoard {
     areAllShipSunk() {
         let allShipsSunk = true;
         this.ships.forEach((ship) => {
-            if(ship.sunken == false) {
-                return allShipsSunk = false;
+            if (ship.sunken == false) {
+                return (allShipsSunk = false);
             }
-        })
+        });
         return allShipsSunk;
-        
     }
 }
 
