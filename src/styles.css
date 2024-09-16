@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background: linear-gradient(135deg, #00aaff 25%, #0077cc 50%, #0055aa 75%);
+    background-size: 200% 200%;
+    animation: ocean 5s infinite alternate;
+    height: 100vh;
+    margin: 0;
+}
+
+@keyframes ocean {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
