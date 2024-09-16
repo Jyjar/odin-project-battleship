@@ -17,9 +17,8 @@ class Player {
             let isValidCoord = false;
             
             while (!isValidCoord) {
-                randomCoord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];  // Use *10 to include [9, 9]
+                randomCoord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
                 
-                // Check if this coordinate has already been attacked
                 const hasBeenShot = this.gameBoard.shots.some((coord) => 
                     coord[0] === randomCoord[0] && coord[1] === randomCoord[1]
                 );
