@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 body {
@@ -20,3 +21,140 @@ body {
         background-position: 100% 50%;
     }
 }
+
+h1 {
+    color: yellow;
+    text-shadow: 2px 2px black;
+}
+
+.start-screen > h1 {
+    font-size: 100px;
+}
+
+.start-screen {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 150px;
+}
+
+.select-gamemode {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.select-gamemode > p {
+    font-size: 40px;
+}
+
+button {
+    font-weight: bold;
+    background-color: red;
+    color: white;
+}
+
+.select-gamemode > button {
+    font-size: 20px;
+
+    height: 40px;
+}
+
+.player-board-view {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 100px;
+}
+
+.player-board-view > header > h1 {
+    font-size: 40px;
+}
+
+.player-board-view > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.player-board-view > header > div > button {
+    padding: 4px;
+}
+
+.player-boards {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.first-player, .secound-player {
+    display: flex;
+    flex-direction: column;
+}
+
+.first-player-grid, .secound-player-grid {
+    display: grid;
+    grid-template-columns: repeat(10, min(50px, calc(4vw)));
+    grid-template-rows: repeat(10, min(50px, calc(4vw)));
+    gap: 5px;
+    background-color: #0077cc;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%; /* Adjusts to the container's width */
+    max-width: 90vw; /* Limits the width to 90% of the viewport */
+}
+
+.board-item, .ship, .ship-hidden {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border: 1px solid #000;
+}
+
+.ship {
+    background-color: #ff4500; /* Ship tiles appear in a distinct color */
+}
+
+.board-item,
+.ship-hidden {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00aaff; /* Water tiles */
+}
+
+.dot {
+    background-color: white;
+    border-radius: 50%;
+    width: calc(min(50px, calc(4vw)) / 2);
+    height: calc(min(50px, calc(4vw)) / 2);
+}
+
+.hit {
+    position: relative;
+}
+
+.hit:before, .hit:after {
+    position: absolute;
+    content: '';
+    background: black;
+    height: 3px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.hit:before {
+    transform: rotate(-45deg);
+}
+
+.hit:after {
+    transform: rotate(45deg);
+}
+
+

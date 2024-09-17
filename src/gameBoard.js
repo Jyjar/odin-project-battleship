@@ -58,29 +58,24 @@ class GameBoard {
     }
 
     receiveAttack(coords) {
-        let ship = this.board[coords[0]][coords[1]];
+        let ship = this.board[coords[1]][coords[0]];
+
+        this.shots.push(coords);
 
         if (ship != null) {
             ship.hit();
             if (ship.timesHit == ship.length) {
                 ship.sunken = true;
             }
-            this.shots.push(coords);
             return true;
         } else {
-            this.shots.push(coords);
             return false;
         }
+
     }
 
     areAllShipSunk() {
-        let allShipsSunk = true;
-        this.ships.forEach((ship) => {
-            if (ship.sunken == false) {
-                return (allShipsSunk = false);
-            }
-        });
-        return allShipsSunk;
+        return this.ships.every(ship => ship.sunken);
     }
 }
 

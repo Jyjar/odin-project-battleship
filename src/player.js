@@ -19,8 +19,8 @@ class Player {
             while (!isValidCoord) {
                 randomCoord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
                 
-                const hasBeenShot = this.gameBoard.shots.some((coord) => 
-                    coord[0] === randomCoord[0] && coord[1] === randomCoord[1]
+                const hasBeenShot = opponent.gameBoard.shots.some(
+                    (shot) => shot[0] === randomCoord[0] && shot[1] === randomCoord[1]
                 );
     
                 if (!hasBeenShot) {
