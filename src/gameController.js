@@ -2,16 +2,17 @@ import { Player } from "./player.js";
 import { Ship } from "./ship.js";
 
 class GameController {
-    constructor(domManager) {
+    constructor() {
         this.player1;
         this.player2;
         this.currentPlayer;
-        this.domManager = domManager;
+        this.gameMode;
     }
 
     startGame(gameMode) {
-        this.player1 = new Player("player1", false);
-        this.player2 = new Player("player2", gameMode === "playerVSComputer");
+        this.gameMode = gameMode;
+        this.player1 = new Player(false);
+        this.player2 = new Player(gameMode === "playerVSComputer");
         this.currentPlayer = this.player1;
 
         // Generate ships for both players
@@ -55,13 +56,12 @@ class GameController {
     playTurn(coord) {
         let opponent =
             this.currentPlayer === this.player1 ? this.player2 : this.player1;
-
         if (this.player2.isComputer) {
             this.currentPlayer.attack(opponent, coord);
             opponent.computerMove(this.currentPlayer);
         } else {
             this.currentPlayer.attack(opponent, coord);
-            this.switchTurn();
+
         }
     }
 

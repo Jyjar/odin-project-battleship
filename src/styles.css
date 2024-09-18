@@ -93,6 +93,12 @@ button {
 .first-player, .secound-player {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.secound-player > h3 {
+    color: white;
 }
 
 .first-player-grid, .secound-player-grid {
@@ -155,6 +161,26 @@ button {
 
 .hit:after {
     transform: rotate(45deg);
+}
+
+.pass-device-view {
+    display: flex;
+    gap: 150px;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.pass-device-view > h2 {
+    color: yellow;
+    font-size: 50px;
+    text-align: center;
+}
+
+.pass-device-view > button {
+    font-size: 25px;
+    padding: 5px;
 }
 
 

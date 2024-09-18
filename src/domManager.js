@@ -20,10 +20,15 @@ class DOMManager {
     }
 
     setStartScreenEventListeners() {
-        let playerVsComputerButton = document.querySelector(".player-vs-computer");
+        let playerVsComputerButton = document.querySelector(
+            ".player-vs-computer"
+        );
         playerVsComputerButton.addEventListener("click", () => {
             this.gameController.startGame("playerVSComputer");
-            this.renderBoard(this.gameController.player1.gameBoard, this.gameController.player2.gameBoard);
+            this.renderBoard(
+                this.gameController.player1.gameBoard,
+                this.gameController.player2.gameBoard
+            );
             this.setBoardClickListener((x, y) => {
                 this.gameController.playTurn([x, y]);
                 if (!this.gameController.checkGameOver()) {
@@ -32,10 +37,30 @@ class DOMManager {
                         this.gameController.player2.gameBoard
                     );
                 } else {
-                    this.showGameOver(this.gameController.checkGameOver())
+                    this.showGameOver(this.gameController.checkGameOver());
                     console.log("GAME OVER");
                 }
-
+            });
+        });
+        let playerVsPlayerButton = document.querySelector(".player-vs-player");
+        playerVsPlayerButton.addEventListener("click", () => {
+            this.gameController.startGame("playerVSPlayer");
+            this.renderBoard(
+                this.gameController.player1.gameBoard,
+                this.gameController.player2.gameBoard
+            );
+            this.setBoardClickListener((x, y) => {
+                this.gameController.playTurn([x, y]);
+                if (!this.gameController.checkGameOver()) {
+                    this.updateBoard(
+                        this.gameController.player1.gameBoard,
+                        this.gameController.player2.gameBoard
+                    );
+                    this.switchPlayerScreen();
+                } else {
+                    this.showGameOver(this.gameController.checkGameOver());
+                    console.log("GAME OVER");
+                }
             });
         });
     }
@@ -50,37 +75,38 @@ class DOMManager {
         const playerBoardView = document.createElement("div");
         playerBoardView.className = "player-board-view";
         playerBoardView.innerHTML = `   
-        <header>
-            <h1>Battleship</h1>
-            <div>
-                <button class="start-menu-button">GO TO START MENU</button>
-                <button class="reset-button">RESET</button>
-            </div>
-        </header>
-        <div class="player-boards">
-            <div class="first-player">
-                <div class ="first-player-grid">
-                    
+            <header>
+                <h1>Battleship</h1>
+                <div>
+                    <button class="start-menu-button">GO TO START MENU</button>
+                    <button class="reset-button">RESET</button>
+                </div>
+            </header>
+            <div class="player-boards">
+                <div class="first-player">
+                    <div class="first-player-grid"></div>
+                    <h3>Player 1</h3>
+                </div>
+                <div class="secound-player">
+                    <div class="secound-player-grid"></div>
+                    <h3>Player 2</h3>
                 </div>
             </div>
-            <div class="secound-player">
-                <div class="secound-player-grid">
-
-                </div>
-            </div>
-        </div>
         `;
         document.body.appendChild(playerBoardView);
 
+        // Show Player 1's ships if it's Player 1's turn, else hide them
         this.renderGameBoard(
             player1gameBoard,
             document.querySelector(".first-player-grid"),
-            false
+            this.gameController.currentPlayer === this.gameController.player2 // Hide Player 1's ships when Player 2 is playing
         );
+
+        // Show Player 2's ships if it's Player 2's turn, else hide them
         this.renderGameBoard(
             player2gameBoard,
             document.querySelector(".secound-player-grid"),
-            true
+            this.gameController.currentPlayer === this.gameController.player1 // Hide Player 2's ships when Player 1 is playing
         );
 
         this.startMenuButtonEventListener();
@@ -133,19 +159,84 @@ class DOMManager {
     resetButtonEventListener() {
         const resetButton = document.querySelector(".reset-button");
         resetButton.addEventListener("click", () => {
+            const gameMode = this.gameController.gameMode;
+            this.gameController.startGame(gameMode);
+            this.renderBoard(
+                this.gameController.player1.gameBoard,
+                this.gameController.player2.gameBoard
+            );
 
-            this.gameController.startGame("playerVSComputer");
-            this.renderBoard(this.gameController.player1.gameBoard, this.gameController.player2.gameBoard);
+            if (gameMode === "playerVSComputer") {
+                this.setBoardClickListener((x, y) => {
+                    this.gameController.playTurn([x, y]);
+                    if (!this.gameController.checkGameOver()) {
+                        this.updateBoard(
+                            this.gameController.player1.gameBoard,
+                            this.gameController.player2.gameBoard
+                        );
+                    } else {
+                        this.showGameOver(this.gameController.checkGameOver());
+                        console.log("GAME OVER");
+                    }
+                });
+            } else if (gameMode === "playerVSPlayer") {
+                this.setBoardClickListener((x, y) => {
+                    this.gameController.playTurn([x, y]);
+                    if (!this.gameController.checkGameOver()) {
+                        this.updateBoard(
+                            this.gameController.player1.gameBoard,
+                            this.gameController.player2.gameBoard
+                        );
+                        this.switchPlayerScreen();
+                    } else {
+                        this.showGameOver(this.gameController.checkGameOver());
+                        console.log("GAME OVER");
+                    }
+                });
+            }
+        });
+    }
+
+    switchPlayerScreen() {
+        this.clearScreen();
+
+        const passDeviceView = document.createElement("div");
+        passDeviceView.className = "pass-device-view";
+        passDeviceView.innerHTML = `   
+            <h2>Pass device to ${
+                this.gameController.currentPlayer ===
+                this.gameController.player1
+                    ? "Player 2"
+                    : "Player 1"
+            }</h2>
+            <button class="switch-player">${
+                this.gameController.currentPlayer ===
+                this.gameController.player1
+                    ? "PLAYER 2"
+                    : "PLAYER 1"
+            } IS HERE</button>
+        `;
+        document.body.appendChild(passDeviceView);
+
+        let switchButton = document.querySelector(".switch-player");
+        switchButton.addEventListener("click", () => {
+            this.gameController.switchTurn();
+            this.renderBoard(
+                this.gameController.player1.gameBoard,
+                this.gameController.player2.gameBoard
+            );
+            // Re-assign click listener for new player to attack
             this.setBoardClickListener((x, y) => {
                 this.gameController.playTurn([x, y]);
-
                 if (!this.gameController.checkGameOver()) {
                     this.updateBoard(
                         this.gameController.player1.gameBoard,
                         this.gameController.player2.gameBoard
                     );
+                    // Show switch screen after each attack
+                    this.switchPlayerScreen();
                 } else {
-                    this.showGameOver(this.gameController.checkGameOver())
+                    this.showGameOver(this.gameController.checkGameOver());
                     console.log("GAME OVER");
                 }
             });
