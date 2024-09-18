@@ -1,5 +1,7 @@
 class DOMManager {
-    constructor() {}
+    constructor(gameController) {
+        this.gameController = gameController;
+    }
 
     renderStartScreen() {
         const startScreen = document.createElement("div");
@@ -13,6 +15,29 @@ class DOMManager {
             </div>
         `;
         document.body.appendChild(startScreen);
+
+        this.setStartScreenEventListeners();
+    }
+
+    setStartScreenEventListeners() {
+        let playerVsComputerButton = document.querySelector(".player-vs-computer");
+        playerVsComputerButton.addEventListener("click", () => {
+            this.gameController.startGame("playerVSComputer");
+            this.renderBoard(this.gameController.player1.gameBoard, this.gameController.player2.gameBoard);
+            this.setBoardClickListener((x, y) => {
+                this.gameController.playTurn([x, y]);
+                if (!this.gameController.checkGameOver()) {
+                    this.updateBoard(
+                        this.gameController.player1.gameBoard,
+                        this.gameController.player2.gameBoard
+                    );
+                } else {
+                    this.showGameOver(this.gameController.checkGameOver())
+                    console.log("GAME OVER");
+                }
+
+            });
+        });
     }
 
     clearScreen() {
@@ -57,6 +82,9 @@ class DOMManager {
             document.querySelector(".secound-player-grid"),
             true
         );
+
+        this.startMenuButtonEventListener();
+        this.resetButtonEventListener();
     }
 
     renderGameBoard(gameBoard, gridElement, isHidden) {
@@ -84,7 +112,8 @@ class DOMManager {
                             dot.classList.add("dot");
                             boardItem.append(dot);
                         } else if (
-                            boardItem.classList.contains("ship-hidden") || boardItem.classList.contains("ship")
+                            boardItem.classList.contains("ship-hidden") ||
+                            boardItem.classList.contains("ship")
                         ) {
                             boardItem.classList.add("hit");
                         }
@@ -102,7 +131,34 @@ class DOMManager {
     }
 
     resetButtonEventListener() {
+        const resetButton = document.querySelector(".reset-button");
+        resetButton.addEventListener("click", () => {
 
+            this.gameController.startGame("playerVSComputer");
+            this.renderBoard(this.gameController.player1.gameBoard, this.gameController.player2.gameBoard);
+            this.setBoardClickListener((x, y) => {
+                this.gameController.playTurn([x, y]);
+
+                if (!this.gameController.checkGameOver()) {
+                    this.updateBoard(
+                        this.gameController.player1.gameBoard,
+                        this.gameController.player2.gameBoard
+                    );
+                } else {
+                    this.showGameOver(this.gameController.checkGameOver())
+                    console.log("GAME OVER");
+                }
+            });
+        });
+    }
+
+    startMenuButtonEventListener() {
+        const startMenuButton = document.querySelector(".start-menu-button");
+        startMenuButton.addEventListener("click", () => {
+            this.clearScreen();
+            this.renderStartScreen();
+            this.setStartScreenEventListeners();
+        });
     }
 
     setBoardClickListener(callback) {
@@ -118,14 +174,6 @@ class DOMManager {
         gameOverScreen.className = "game-over";
         gameOverScreen.innerHTML = `<h2>${winner} wins!</h2>`;
         document.body.appendChild(gameOverScreen);
-    }
-
-    getCoordinatesFromClick() {
-        // Capture the clicked coordinates from the enemy board.
-    }
-
-    setupEventListeners() {
-        // Set up event listeners for player interactions (e.g., clicking to attack).
     }
 }
 

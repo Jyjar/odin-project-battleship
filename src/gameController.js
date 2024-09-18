@@ -17,12 +17,6 @@ class GameController {
         // Generate ships for both players
         this.generateShips(this.player1);
         this.generateShips(this.player2);
-
-        // Let DOMManager render the game board
-        this.domManager.renderBoard(
-            this.player1.gameBoard,
-            this.player2.gameBoard
-        );
     }
 
     generateShips(player) {
@@ -68,18 +62,6 @@ class GameController {
         } else {
             this.currentPlayer.attack(opponent, coord);
             this.switchTurn();
-        }
-
-        console.log(this.checkGameOver());
-        // Let DOMManager update the UI after the attack
-        if (!this.checkGameOver()) {
-            this.domManager.updateBoard(
-                this.player1.gameBoard,
-                this.player2.gameBoard
-            );
-        } else {
-            showGameOver(checkGameOver())
-            console.log("GAME OVER");
         }
     }
 
