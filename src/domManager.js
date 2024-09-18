@@ -95,18 +95,16 @@ class DOMManager {
         `;
         document.body.appendChild(playerBoardView);
 
-        // Show Player 1's ships if it's Player 1's turn, else hide them
         this.renderGameBoard(
             player1gameBoard,
             document.querySelector(".first-player-grid"),
-            this.gameController.currentPlayer === this.gameController.player2 // Hide Player 1's ships when Player 2 is playing
+            this.gameController.currentPlayer === this.gameController.player2
         );
 
-        // Show Player 2's ships if it's Player 2's turn, else hide them
         this.renderGameBoard(
             player2gameBoard,
             document.querySelector(".secound-player-grid"),
-            this.gameController.currentPlayer === this.gameController.player1 // Hide Player 2's ships when Player 1 is playing
+            this.gameController.currentPlayer === this.gameController.player1
         );
 
         this.startMenuButtonEventListener();
@@ -225,7 +223,6 @@ class DOMManager {
                 this.gameController.player1.gameBoard,
                 this.gameController.player2.gameBoard
             );
-            // Re-assign click listener for new player to attack
             this.setBoardClickListener((x, y) => {
                 this.gameController.playTurn([x, y]);
                 if (!this.gameController.checkGameOver()) {
@@ -233,7 +230,6 @@ class DOMManager {
                         this.gameController.player1.gameBoard,
                         this.gameController.player2.gameBoard
                     );
-                    // Show switch screen after each attack
                     this.switchPlayerScreen();
                 } else {
                     this.showGameOver(this.gameController.checkGameOver());

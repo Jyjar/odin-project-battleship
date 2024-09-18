@@ -15,7 +15,6 @@ class GameController {
         this.player2 = new Player(gameMode === "playerVSComputer");
         this.currentPlayer = this.player1;
 
-        // Generate ships for both players
         this.generateShips(this.player1);
         this.generateShips(this.player2);
     }
