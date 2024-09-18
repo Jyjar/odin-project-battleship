@@ -183,4 +183,30 @@ button {
     padding: 5px;
 }
 
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.game-over-message {
+    color: yellow;
+    text-shadow: 2px 2px black;
+    font-size: 70px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    pointer-events: auto;
+}
+
+
 

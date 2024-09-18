@@ -157,6 +157,7 @@ class DOMManager {
     resetButtonEventListener() {
         const resetButton = document.querySelector(".reset-button");
         resetButton.addEventListener("click", () => {
+            this.removeGameOverScreen();
             const gameMode = this.gameController.gameMode;
             this.gameController.startGame(gameMode);
             this.renderBoard(
@@ -242,6 +243,7 @@ class DOMManager {
     startMenuButtonEventListener() {
         const startMenuButton = document.querySelector(".start-menu-button");
         startMenuButton.addEventListener("click", () => {
+            this.removeGameOverScreen();
             this.clearScreen();
             this.renderStartScreen();
             this.setStartScreenEventListeners();
@@ -257,11 +259,24 @@ class DOMManager {
     }
 
     showGameOver(winner) {
-        const gameOverScreen = document.createElement("div");
-        gameOverScreen.className = "game-over";
-        gameOverScreen.innerHTML = `<h2>${winner} wins!</h2>`;
-        document.body.appendChild(gameOverScreen);
+        const message = winner == this.gameController.player1 ? "Player 1 wins!" : "Player 2 wins!";
+        const gameOverScreen = `
+            <div class="game-over-overlay">
+                <div class="game-over-message">
+                    <h2>${message}</h2>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', gameOverScreen);
     }
+
+    removeGameOverScreen() {
+        const gameOverOverlay = document.querySelector(".game-over-overlay");
+        if (gameOverOverlay) {
+            gameOverOverlay.remove();
+        }
+    }
+    
 }
 
 export { DOMManager };
