@@ -48,7 +48,7 @@ describe("gameBoard tests", () => {
 
     describe("reciveAttack method", () => {
         test("hits the ship and returns true", () => {
-            expect(gameBoard.receiveAttack([0, 2])).toBe(true);
+            expect(gameBoard.receiveAttack([2, 0])).toBe(true);
         });
 
         test("fail to hit the ship and returns false", () => {
@@ -58,8 +58,8 @@ describe("gameBoard tests", () => {
 
     test("hitting and sinking a ship", () => {
         gameBoard.receiveAttack([0, 0]);
-        gameBoard.receiveAttack([0, 1]);
-        gameBoard.receiveAttack([0, 2]);
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([2, 0]);
         expect(ship.sunken).toBe(true);
     });
 
@@ -70,8 +70,8 @@ describe("gameBoard tests", () => {
             gameBoard.receiveAttack([0, 2]);
             let newShip = new Ship(2);
             gameBoard.placeShip(newShip, [0, 2], "horizontal");
-            gameBoard.receiveAttack([2, 0]);
-            gameBoard.receiveAttack([2, 1]);
+            gameBoard.receiveAttack([0, 2]);
+            gameBoard.receiveAttack([1, 2]);
             expect(gameBoard.areAllShipSunk()).toBe(true);
         });
     });
@@ -105,14 +105,16 @@ describe("player tests", () => {
             return result;
         }
 
+        console.log(playerOne.gameBoard.shots);
+
         function arrayIncludesCoordinate(arr, coord) {
             return arr.some((c) => c[0] === coord[0] && c[1] === coord[1]);
         }
 
         playerTwo.gameBoard.shots = fillShotsExpectOne();
         playerTwo.gameBoard.shots.pop();
-        playerTwo.computerMove(playerOne);
-        expect(arrayIncludesCoordinate(playerOne.gameBoard.shots, [9, 9])).toBe(
+        playerOne.computerMove(playerTwo);
+        expect(arrayIncludesCoordinate(playerTwo.gameBoard.shots, [9, 9])).toBe(
             true
         );
     });
